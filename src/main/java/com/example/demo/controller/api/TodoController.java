@@ -4,6 +4,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Todos;
 import com.example.demo.service.impl.TodoServiceImpl;
+import com.example.demo.support.exception.ResourceException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import net.minidev.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 
 @RestController
 @RequestMapping("api")
@@ -34,7 +40,11 @@ public class TodoController {
 	}
 
 	@PostMapping("/todos")
-	public Todos writeTodo(@RequestBody Todos todo) {
+	public Todos writeTodo(HttpServletRequest request, @Valid Todos todo, BindingResult result) {
+		if (result.hasErrors()) {			
+			String originalURL = request.getRequestURI();
+			throw new ResourceException(originalURL, HttpStatus.BAD_REQUEST, result.getFieldError().getField());
+		}
 		return todoService.writeTodo(todo.getText());
 	}  
 
