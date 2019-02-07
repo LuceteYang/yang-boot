@@ -13,23 +13,23 @@ import com.example.demo.service.impl.PlayerServiceImpl;
 @RestController
 public class PlayerController {
 	@Autowired
-	PlayerServiceImpl companyService;
+	PlayerServiceImpl playerService;
 
 	@GetMapping("/players")
     public List<Player> players() {
 		
-        return companyService.findAll();
+        return playerService.findAll();
     }
 	
 	@GetMapping("/players/{team}/desc")
     public List<Player> teamPlayersDESC(@PathVariable int team) {
 
-        return companyService.findByteamOrderByIdDesc(team);
+        return playerService.findByteamOrderByIdDesc(team);
     }
 	@GetMapping("/players/{team}/asc")
     public List<Player> teamPlayersASC(@PathVariable int team) {
 
-        return companyService.findByteamOrderByIdAsc(team);
+        return playerService.findByteamOrderByIdAsc(team);
     }
 
 }
