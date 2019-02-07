@@ -20,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("api")
+//@CrossOrigin(origins = "*", maxAge = 3600)
 public class TodoController {
 	@Autowired
 	TodoServiceImpl todoService;
-	
+
+	//	@CrossOrigin("*")	
 	@GetMapping("/todos")
 	public JSONObject todoList() {
 		JSONObject json = new JSONObject();
